@@ -52,14 +52,24 @@ class DoubleLinkedList:
 
         return print("NULL")
 
-    def delete_photo(self, data):
-        s = Stack()
-        s.add_trash(data)
+    def delete_photo(self, data_image):
+        with open("data_image.txt", mode="a+", encoding="utf-8") as file:
+            lines = file.readlines()
+
+            file.seek(0)
+            file.truncate()
+
+            for line in lines:
+                data = line.strip().split(",")
+
+                if data[0] == data_image:
+                    s = Stack()
+                    s.add_trash(data_image)
+                else:
+                    file.write(line)
 
 dll = DoubleLinkedList()
-input_user = input("Masukkan Nama File Gambar: ")
+# input_user = input("Masukkan Nama File Gambar: ")
 input_user2 = input("Masukkan Nama File Yang Ingin Dihapus: ")
-dll.add_photo(input_user)
+# dll.add_photo(input_user)
 dll.delete_photo(input_user2)
-
-print("hai")
