@@ -61,3 +61,5 @@ input_user = input("Masukkan Nama File Gambar: ")
 input_user2 = input("Masukkan Nama File Yang Ingin Dihapus: ")
 dll.add_photo(input_user)
 dll.delete_photo(input_user2)
+
+print("hai")
