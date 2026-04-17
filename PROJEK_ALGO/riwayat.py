@@ -32,8 +32,8 @@ class Stack:
         temp = self.head
 
         while temp:
-            with open("data_sampah.txt", mode="a", encoding="utf-8") as file:
-                file.write(temp.data)
+            with open("PROJEK_ALGO/data_sampah.txt", mode="a", encoding="utf-8") as file:
+                file.write(f"{temp.data}\n")
                 temp = temp.next
 
         return print("Selesai!")
