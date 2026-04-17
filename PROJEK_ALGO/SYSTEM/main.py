@@ -1,4 +1,4 @@
-from riwayat import Stack
+from SYSTEM import Stack
 from rich.table import Table
 from rich import print as p
 
@@ -30,14 +30,14 @@ class DoubleLinkedList: #Class untuk menjalankan fitur CRUD(Create, Read, Update
         temp = self.head #Simpan head node ke dalam variabel baru
 
         while temp: #Looping data yang dimulai dari node
-            with open("PROJEK_ALGO/data_image.txt", mode="a", encoding="utf-8") as file:
+            with open("../DATABASE/data_image.txt", mode="a", encoding="utf-8") as file:
                 file.write(f"{temp.data}\n") #Masukkan data yang ada pada node ke dalam file
                 temp = temp.next #Perbarui variabel temp menjadi node berikutnya
 
         return print("Selesai!") #Jika sudah mencapai node terakhir, cetak kata selesai ke terminal
 
     def delete_photo(self, data_image): #DELETE
-        with open("PROJEK_ALGO/data_image.txt", mode="r+", encoding="utf-8") as file:
+        with open("../DATABASE/data_image.txt", mode="r+", encoding="utf-8") as file:
             lines = file.readlines() #Ambil/baca semua isi file, lalu simpan ke dalam variabel
 
             file.seek(0) #Set posisi kursor kembali ke atas
@@ -57,7 +57,7 @@ class DoubleLinkedList: #Class untuk menjalankan fitur CRUD(Create, Read, Update
         self.table = Table() #Inisialisasi objek Table
         self.table.add_column("Nama File") #Buat 1 kolom baru
 
-        with open("PROJEK_ALGO/data_image.txt", mode="r", encoding="utf-8") as file:
+        with open("../DATABASE/data_image.txt", mode="r", encoding="utf-8") as file:
             lines = file.readlines() #Ambil/baca semua isi file, lalu simpan ke dalam variabel
 
             for line in lines: #Looping setiap nilai yang ada di dalam variabel lines
@@ -67,8 +67,8 @@ class DoubleLinkedList: #Class untuk menjalankan fitur CRUD(Create, Read, Update
         return p(self.table) #Cetak hasil tabel
 
 dll = DoubleLinkedList() #Inisialisasi objek DoubleLinkedList
-# input_user = input("Masukkan Nama File Gambar: ") #Input user untuk menambah data (ceritanya: gambar)
+input_user = input("Masukkan Nama File Gambar: ") #Input user untuk menambah data (ceritanya: gambar)
 # input_user2 = input("Masukkan Nama File Yang Ingin Dihapus: ") #Input user untuk menghapus data (ceritanya: gambar)
-# dll.add_photo(input_user) #Memanggil method add_photo untuk memasukkan/menambah data
+dll.add_photo(input_user) #Memanggil method add_photo untuk memasukkan/menambah data
 # dll.delete_photo(input_user2) #Memanggil method delete_photo untuk menghapus data
-dll.display() #Menampilkan daftar gambar dalam bentuk tabel
+# dll.display() #Menampilkan daftar gambar dalam bentuk tabel
