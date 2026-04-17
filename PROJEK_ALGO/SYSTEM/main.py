@@ -1,6 +1,7 @@
 from riwayat import Stack
 from rich.table import Table
 from rich import print as p
+import os
 
 class Node: #Class untuk membuat template node
     def __init__(self, data):
@@ -48,7 +49,7 @@ class DoubleLinkedList: #Class untuk menjalankan fitur CRUD(Create, Read, Update
                 data = line.strip().split(",")
                 if data[0] == data_image:
                     input_user = input("Masukkan Edit: ")
-                    file.write(input_user)
+                    file.write(f"{input_user}\n")
                     self.found = True
                 else:
                     file.write(line)
@@ -94,11 +95,29 @@ class DoubleLinkedList: #Class untuk menjalankan fitur CRUD(Create, Read, Update
 
         return p(self.table) #Cetak hasil tabel
 
-dll = DoubleLinkedList() #Inisialisasi objek DoubleLinkedList
-# input_user = input("Masukkan Nama File Gambar: ") #Input user untuk menambah data (ceritanya: gambar)
-# input_user2 = input("Masukkan Nama File Yang Ingin Dihapus: ") #Input user untuk menghapus data (ceritanya: gambar)
-# dll.add_photo(input_user) #Memanggil method add_photo untuk memasukkan/menambah data
-# dll.delete_photo(input_user2) #Memanggil method delete_photo untuk menghapus data
-# dll.display() #Menampilkan daftar gambar dalam bentuk tabel
-input_user3 = input("Masukkan Nama File Yang Ingin Diedit: ")
-dll.update(input_user3)
+if __name__ == "__main__":
+    os.system("cls")
+
+    print("=====================================")
+    print("= 1. Tambah Data                    =")
+    print("= 2. Tampilkan Data                 =")
+    print("= 3. Edit Data                      =")
+    print("= 4. Hapus Data                     =")
+    print("=====================================")
+
+    dll = DoubleLinkedList() #Inisialisasi objek DoubleLinkedList
+    
+    choice = input("Pilih Menu (1-4): ").strip().lower()
+    if choice == "1":
+        input_user = input("Masukkan Nama File Gambar: ") #Input user untuk menambah data (ceritanya: gambar)
+        dll.add_photo(input_user) #Memanggil method add_photo untuk memasukkan/menambah data
+    elif choice == "2":
+        dll.display() #Menampilkan daftar gambar dalam bentuk tabel
+    elif choice == "3":
+        input_user3 = input("Masukkan Nama File Yang Ingin Diedit: ")
+        dll.update(input_user3)
+    elif choice == "4":
+        input_user2 = input("Masukkan Nama File Yang Ingin Dihapus: ") #Input user untuk menghapus data (ceritanya: gambar)
+        dll.delete_photo(input_user2) #Memanggil method delete_photo untuk menghapus data
+    else:
+        print("Input Tidak Valid!")
