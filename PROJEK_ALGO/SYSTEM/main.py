@@ -36,6 +36,27 @@ class DoubleLinkedList: #Class untuk menjalankan fitur CRUD(Create, Read, Update
 
         return print("Selesai!") #Jika sudah mencapai node terakhir, cetak kata selesai ke terminal
 
+    def update(self, data_image):
+        self.found = False
+        with open("PROJEK_ALGO/DATABASE/data_image.txt", mode="r+", encoding="utf-8") as file:
+            lines = file.readlines()
+
+            file.seek(0) #Set posisi kursor kembali ke atas
+            file.truncate() #Kosongkan file
+
+            for line in lines:
+                data = line.strip().split(",")
+                if data[0] == data_image:
+                    input_user = input("Masukkan Edit: ")
+                    file.write(input_user)
+                    self.found = True
+                else:
+                    file.write(line)
+
+        if not self.found:
+            print("File tidak ditemukan di dalam penyimpanan!")
+
+
     def delete_photo(self, data_image): #DELETE
         self.found = False
         
@@ -75,7 +96,9 @@ class DoubleLinkedList: #Class untuk menjalankan fitur CRUD(Create, Read, Update
 
 dll = DoubleLinkedList() #Inisialisasi objek DoubleLinkedList
 # input_user = input("Masukkan Nama File Gambar: ") #Input user untuk menambah data (ceritanya: gambar)
-input_user2 = input("Masukkan Nama File Yang Ingin Dihapus: ") #Input user untuk menghapus data (ceritanya: gambar)
+# input_user2 = input("Masukkan Nama File Yang Ingin Dihapus: ") #Input user untuk menghapus data (ceritanya: gambar)
 # dll.add_photo(input_user) #Memanggil method add_photo untuk memasukkan/menambah data
-dll.delete_photo(input_user2) #Memanggil method delete_photo untuk menghapus data
+# dll.delete_photo(input_user2) #Memanggil method delete_photo untuk menghapus data
 # dll.display() #Menampilkan daftar gambar dalam bentuk tabel
+input_user3 = input("Masukkan Nama File Yang Ingin Diedit: ")
+dll.update(input_user3)
