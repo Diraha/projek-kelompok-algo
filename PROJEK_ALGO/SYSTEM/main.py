@@ -25,17 +25,8 @@ class DoubleLinkedList: #Class untuk menjalankan fitur CRUD(Create, Read, Update
             new_node.prev = self.tail
             self.tail = new_node
 
-        self.save_file() #Jalankan method simpan data ke dalam file
-
-    def save_file(self): #SAVE FILE
-        temp = self.head #Simpan head node ke dalam variabel baru
-
-        while temp: #Looping data yang dimulai dari node
-            with open("PROJEK_ALGO/DATABASE/data_image.txt", mode="a", encoding="utf-8") as file:
-                file.write(f"{temp.data}\n") #Masukkan data yang ada pada node ke dalam file
-                temp = temp.next #Perbarui variabel temp menjadi node berikutnya
-
-        return print("Selesai!") #Jika sudah mencapai node terakhir, cetak kata selesai ke terminal
+        with open("PROJEK_ALGO/DATABASE/data_image.txt", mode="a", encoding="utf-8") as file:
+            file.write(f"{data}\n") #Jalankan method simpan data ke dalam file
 
     def update(self, data_image):
         self.found = False
@@ -127,23 +118,29 @@ if __name__ == "__main__":
 
     dll = DoubleLinkedList() #Inisialisasi objek DoubleLinkedList
     
-    choice = input("Pilih Menu (1-6): ").strip().lower()
-    if choice == "1":
-        input_user = input("Masukkan Nama File Gambar: ") #Input user untuk menambah data (ceritanya: gambar)
-        dll.add_photo(input_user) #Memanggil method add_photo untuk memasukkan/menambah data
-    elif choice == "2":
-        dll.display() #Menampilkan daftar gambar dalam bentuk tabel
-    elif choice == "3":
-        input_user3 = input("Masukkan Nama File Yang Ingin Diedit: ")
-        dll.update(input_user3)
-    elif choice == "4":
-        input_user2 = input("Masukkan Nama File Yang Ingin Dihapus: ") #Input user untuk menghapus data (ceritanya: gambar)
-        dll.delete_photo(input_user2) #Memanggil method delete_photo untuk menghapus data
-    elif choice == "5":
-        dll.disply_dbl_next()
-        dll.disply_dbl_prev()
-    elif choice == "6":
-        s = Stack()
-        s.display_trash()
-    else:
-        print("Input Tidak Valid!")
+    while True:
+        choice = input("Pilih Menu (1-6): ").strip().lower()
+        if choice == "1":
+            input_user = input("Masukkan Nama File Gambar: ") #Input user untuk menambah data (ceritanya: gambar)
+            dll.add_photo(input_user) #Memanggil method add_photo untuk memasukkan/menambah data
+        elif choice == "2":
+            dll.display() #Menampilkan daftar gambar dalam bentuk tabel
+        elif choice == "3":
+            input_user3 = input("Masukkan Nama File Yang Ingin Diedit: ")
+            dll.update(input_user3)
+        elif choice == "4":
+            input_user2 = input("Masukkan Nama File Yang Ingin Dihapus: ") #Input user untuk menghapus data (ceritanya: gambar)
+            dll.delete_photo(input_user2) #Memanggil method delete_photo untuk menghapus data
+        elif choice == "5":
+            dll.disply_dbl_next()
+            dll.disply_dbl_prev()
+        elif choice == "6":
+            s = Stack()
+            s.display_trash()
+        else:
+            print("Input Tidak Valid!")
+
+        exit = input("Apakah Sudah Selesai (y/n): ").strip().lower()
+
+        if exit == "y":
+            quit()
