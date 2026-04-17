@@ -52,7 +52,7 @@ class DoubleLinkedList: #Class untuk menjalankan fitur CRUD(Create, Read, Update
                     file.write(f"{input_user}\n")
                     self.found = True
                 else:
-                    file.write(line)
+                    file.write(f"{line}\n")
 
         if not self.found:
             print("File tidak ditemukan di dalam penyimpanan!")
