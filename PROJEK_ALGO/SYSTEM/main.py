@@ -48,10 +48,10 @@ class DoubleLinkedList: #Class untuk menjalankan fitur CRUD(Create, Read, Update
                 data = line.strip().split(",")
                 if data[0] == data_image:
                     input_user = input("Masukkan Edit: ")
-                    file.write(input_user)
+                    file.write(f"{input_user}\n")
                     self.found = True
                 else:
-                    file.write(line)
+                    file.write(f"{line}\n")
 
         if not self.found:
             print("File tidak ditemukan di dalam penyimpanan!")
