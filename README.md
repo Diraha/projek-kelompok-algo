@@ -1,7 +1,7 @@
 # projek-kelompok-algo
 Repository projek algoritma &amp; struktur data dari kelompok 17 dengan tema image viewer
 
-Image Viewer (Kelompok [brp?])
+Image Viewer (Kelompok 17)
 
 STRUKTUR DATA YANG DIPAKAI :
 - Double Linked List
