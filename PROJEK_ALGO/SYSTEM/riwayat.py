@@ -32,7 +32,7 @@ class Stack:
         temp = self.head
 
         while temp:
-            with open("../DATABASE/data_sampah.txt", mode="a", encoding="utf-8") as file:
+            with open("PROJEK_ALGO/DATABASE/data_sampah.txt", mode="a", encoding="utf-8") as file:
                 file.write(f"{temp.data}\n")
                 temp = temp.next
 
