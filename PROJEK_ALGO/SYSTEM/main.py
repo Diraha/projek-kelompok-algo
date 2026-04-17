@@ -28,7 +28,7 @@ class DoubleLinkedList: #Class untuk menjalankan fitur CRUD(Create, Read, Update
         with open("PROJEK_ALGO/DATABASE/data_image.txt", mode="a", encoding="utf-8") as file:
             file.write(f"{data}\n") #Jalankan method simpan data ke dalam file
 
-    def update(self, data_image):
+    def update(self, data_image): #UPDATE
         self.found = False
         with open("PROJEK_ALGO/DATABASE/data_image.txt", mode="r+", encoding="utf-8") as file:
             lines = file.readlines()
