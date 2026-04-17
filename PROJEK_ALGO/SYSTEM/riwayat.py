@@ -1,3 +1,6 @@
+from rich.table import Table
+from rich import print as p
+
 class Node: #Class untuk membuat template node linked list
     def __init__(self, data):
         self.data = data #Membuat variabel data
@@ -38,3 +41,16 @@ class Stack: #Class stack menggunakan linked list
                 temp = temp.next
 
         return print("Selesai!") #Print konfirmasi
+    
+    def display_trash(self):
+        self.table = Table() #Inisialisasi objek Table
+        self.table.add_column("Nama File") #Buat 1 kolom baru
+
+        with open("PROJEK_ALGO/DATABASE/data_sampah.txt", mode="r", encoding="utf-8") as file:
+            lines = file.readlines() #Ambil/baca semua isi file, lalu simpan ke dalam variabel
+
+            for line in lines: #Looping setiap nilai yang ada di dalam variabel lines
+                data = line.strip() #Setiap nilai, bersihkan dulu dari elemen lain
+                self.table.add_row(data) #Tambahkan nilai sebagai baris baru di dalam tabel
+
+        return p(self.table) #Cetak hasil tabel

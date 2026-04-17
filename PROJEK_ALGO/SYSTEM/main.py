@@ -94,6 +94,24 @@ class DoubleLinkedList: #Class untuk menjalankan fitur CRUD(Create, Read, Update
                 self.table.add_row(data) #Tambahkan nilai sebagai baris baru di dalam tabel
 
         return p(self.table) #Cetak hasil tabel
+    
+    def disply_dbl_next(self):
+        temp = self.head
+
+        while temp:
+            print(temp.data, end=" -> ")
+            temp = temp.next
+
+        return print("NULL")
+
+    def disply_dbl_prev(self):
+        temp = self.tail
+
+        while temp:
+            print(temp.data, end=" -> ")
+            temp = temp.prev
+
+        return print("NULL")
 
 if __name__ == "__main__":
     os.system("cls")
@@ -103,11 +121,13 @@ if __name__ == "__main__":
     print("= 2. Tampilkan Data                 =")
     print("= 3. Edit Data                      =")
     print("= 4. Hapus Data                     =")
+    print("= 5. Tampilkan Struktur DBL         =")
+    print("= 6. Tampilkan Riwayat              =")
     print("=====================================")
 
     dll = DoubleLinkedList() #Inisialisasi objek DoubleLinkedList
     
-    choice = input("Pilih Menu (1-4): ").strip().lower()
+    choice = input("Pilih Menu (1-6): ").strip().lower()
     if choice == "1":
         input_user = input("Masukkan Nama File Gambar: ") #Input user untuk menambah data (ceritanya: gambar)
         dll.add_photo(input_user) #Memanggil method add_photo untuk memasukkan/menambah data
@@ -119,5 +139,11 @@ if __name__ == "__main__":
     elif choice == "4":
         input_user2 = input("Masukkan Nama File Yang Ingin Dihapus: ") #Input user untuk menghapus data (ceritanya: gambar)
         dll.delete_photo(input_user2) #Memanggil method delete_photo untuk menghapus data
+    elif choice == "5":
+        dll.disply_dbl_next()
+        dll.disply_dbl_prev()
+    elif choice == "6":
+        s = Stack()
+        s.display_trash()
     else:
         print("Input Tidak Valid!")

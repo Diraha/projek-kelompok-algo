@@ -1,2 +1,2 @@
-borobudur.png
-prambanan.jpeg
+prambanan.png
+borobudur.jpeg
