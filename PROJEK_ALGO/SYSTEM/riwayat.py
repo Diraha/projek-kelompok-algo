@@ -21,7 +21,8 @@ class Stack: #Class stack menggunakan linked list
         self.head = new_node #Head sekarang menjadi node baru (data terbaru di atas)
         self.size += 1 #Ukuran stack bertambah satu
 
-        self.save_trash() #Simpan hanya data baru ke file
+        with open("PROJEK_ALGO/DATABASE/data_sampah.txt", mode="a", encoding="utf-8") as file:
+            file.write(f"{data}\n") #Jalankan method simpan data ke dalam file
 
     def display(self): #Fungsi untuk menampilkan isi stack
         temp = self.head #Mulai dari head
@@ -31,17 +32,7 @@ class Stack: #Class stack menggunakan linked list
             temp = temp.next #Pindah ke node berikutnya
 
         return print("NULL")
-    
-    def save_trash(self): #Fungsi untuk menyimpan data ke file
-        temp = self.head
-
-        while temp:
-            with open("PROJEK_ALGO/DATABASE/data_sampah.txt", mode="a", encoding="utf-8") as file: #Buka file dalam mode append(tidak menghapus data lama)
-                file.write(f"{temp.data}\n") #Tulis data baru ke file
-                temp = temp.next
-
-        return print("Selesai!") #Print konfirmasi
-    
+        
     def display_trash(self):
         self.table = Table() #Inisialisasi objek Table
         self.table.add_column("Nama File") #Buat 1 kolom baru
