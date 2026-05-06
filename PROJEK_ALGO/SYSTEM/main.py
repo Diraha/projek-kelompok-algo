@@ -1,7 +1,15 @@
-from riwayat import Stack
-from rich.table import Table
-from rich import print as p
-import os
+from pathlib import Path #Membuat path folder/file yang lebih aman
+from rich.table import Table #Menampilkan data dalam bentuk tabel di terminal
+from rich import print as p #Membuat tampilan terminal lebih rapi dan bewarna
+from riwayat import Stack #Mengambil class Stack dari file riwayat.py, menyimpan riwayat foto yang sudah dihapus
+import os #Membersihkan layar terminal
+
+#BASE_DIR digunakan untuk mendapatkan lokasi folder utama project
+#__file__ berarti lokasi file main.py
+#parent.parent berarti naik dua folder dari SYSTEM/main.py ke PROJEK_ALGO/
+BASE_DIR = Path(__file__).resolve().parent.parent
+DATABASE_DIR = BASE_DIR / "DATABASE" #Menentukan lokasi folder DATABASE
+DATA_IMAGE_PATH = DATABASE_DIR / "data_image.txt" #Menentukan lokasi file data_image.txt untuk menyimpan data foto
 
 class Node: #Class untuk membuat template node
     def __init__(self, data):
@@ -13,133 +21,243 @@ class DoubleLinkedList: #Class untuk menjalankan fitur CRUD(Create, Read, Update
     def __init__(self):
         self.head = None
         self.tail = None
+        DATABASE_DIR.mkdir(exist_ok=True) #Membuat folder DATABASE jika belum ada
+        DATA_IMAGE_PATH.touch(exist_ok=True) #Membuat file data_image.txt jika belum ada
+        self.load_from_file() #Saat program pertama kali dijalankan, data dari file txt dimasukkan kembali ke linked list
 
-    def add_photo(self, data): #CREATE
-        new_node = Node(data) #Inisialisasi node baru
+    def is_empty(self):
+        """
+        Method untuk mengecek apakah Linked list kosong
+        """
+        return self.head is None
+    
+    def add_node(self, data):
+        """
+        Method ini hanya menambahkan node ke Linked List tanpa langsung menyimpan data ke file
+        """
+        new_node = Node(data) #Membuat node baru yang berisi nama file foto
 
-        if not self.head: #Jika head node dan tail node belum ada, maka jadikan node yang baru dibuat sebagai mereka
+        #Jika Linked list kosong, maka node baru jadi head sekaligus tail
+        if self.is_empty():
             self.head = new_node
             self.tail = new_node
-        else: #Jika head node dan tail node sudah ada, maka sambungkan pointer tail node ke node baru, lalu pindahkan tail node ke node selanjutnya
-            self.tail.next = new_node
-            new_node.prev = self.tail
-            self.tail = new_node
-
-        with open("PROJEK_ALGO/DATABASE/data_image.txt", mode="a", encoding="utf-8") as file:
-            file.write(f"{data}\n") #Jalankan method simpan data ke dalam file
-
-    def update(self, data_image): #UPDATE
-        self.found = False
-        with open("PROJEK_ALGO/DATABASE/data_image.txt", mode="r+", encoding="utf-8") as file:
-            lines = file.readlines()
-
-            file.seek(0) #Set posisi kursor kembali ke atas
-            file.truncate() #Kosongkan file
-
-            for line in lines:
-                data = line.strip().split(",")
-                if data[0] == data_image:
-                    input_user = input("Masukkan Edit: ")
-                    file.write(f"{input_user}\n")
-                    self.found = True
-                else:
-                    file.write(f"{line}\n")
-
-        if not self.found:
-            print("File tidak ditemukan di dalam penyimpanan!")
-
-
-    def delete_photo(self, data_image): #DELETE
-        self.found = False
         
-        with open("PROJEK_ALGO/DATABASE/data_image.txt", mode="r+", encoding="utf-8") as file:
-            lines = file.readlines() #Ambil/baca semua isi file, lalu simpan ke dalam variabel
+        #Jika Linked list sudah memiliki data, node baru ditambahkan dibagian akhir
+        else:
+            self.tail.next = new_node #Node terakhir saat ini menunjuk ke node baru
+            new_node.prev = self.tail #Node baru menunjuk balik ke tail lama
+            self.tail = new_node #Tail dipindahkan ke node baru
 
-            file.seek(0) #Set posisi kursor kembali ke atas
-            file.truncate() #Kosongkan file
+    def load_from_file(self):
+        """
+        Method untuk mengambil data dari file data_image.txt lalu memasukkannya ke dalam Double Linked list
+        """
+        self.head = None #Mengosongkan linked list dulu
+        self.tail = None
 
-            s = Stack() #Inisialisasi objek stack untuk menyimpan file yang terhapus
+        with open(DATA_IMAGE_PATH, mode="r", encoding="utf-8") as file: #Membuka file data_image.txt dalam mode baca
+            for line in file: #Membaca isi file baris perbaris
+                data = line.strip() #Menghapus spasi atau enter diawal/akhir teks
+                if data: #Jika data tidak kosong, masukkan ke linked list
+                    self.add_node(data)
 
-            for line in lines: #Looping satu satu isi variabel lines
-                data = line.strip().split(",") #Setiap nilai, bersihkan dulu dari elemen lain
+    def save_to_file(self):
+        """
+        Method untuk menyimpan ulang seluruh isi Linked list ke file txt
+        """
+        with open(DATA_IMAGE_PATH, mode="w", encoding="utf-8") as file: #Membuka file mode write
+            temp = self.head #Membaca data dari head
+            while temp: #Tulis datanya ke file selama node masih ada
+                file.write(temp.data + "\n")
+                temp = temp.next #Pindah ke node berikutnya
 
-                if data[0] == data_image: #Jika data yang ingin dihapus ada di dalam file, maka:
-                    s.add_trash(data_image) #Simpan ke dalam file data_sampah.txt
-                    self.found = True
-                else:
-                    file.write(line) #Jika bukan, maka tulis kembali sisanya ke dalam file data_image.txt
-
-        if not self.found:
-            print("File tidak ditemukan pada penyimpanan!")
+    def add_photo(self, data):
+        """
+        Method untuk menambahkan foto baru
+        """
+        if not data:
+            print("Nama file tidak boleh kosong!") #Mengecek agar input tidak kosong
             return
+        
+        self.add_node(data) #Menambahkan data ke Linked list
+        self.save_to_file() #Menyimpan Linked list terbaru ke file txt
+        print(f"Foto '{data}' berhasil ditambahkan!")
 
-    def display(self): #READ
-        self.table = Table() #Inisialisasi objek Table
-        self.table.add_column("Nama File") #Buat 1 kolom baru
-
-        with open("PROJEK_ALGO/DATABASE/data_image.txt", mode="r", encoding="utf-8") as file:
-            lines = file.readlines() #Ambil/baca semua isi file, lalu simpan ke dalam variabel
-
-            for line in lines: #Looping setiap nilai yang ada di dalam variabel lines
-                data = line.strip() #Setiap nilai, bersihkan dulu dari elemen lain
-                self.table.add_row(data) #Tambahkan nilai sebagai baris baru di dalam tabel
-
-        return p(self.table) #Cetak hasil tabel
-    
-    def disply_dbl_next(self):
-        temp = self.head
+    def update_photo(self, old_data, new_data):
+        """
+        Method untuk mengubah nama file foto
+        """
+        temp = self.head #Mencari data dari head
 
         while temp:
-            print(temp.data, end=" -> ")
+            #Jika data pada node sama dengan nama file yang dicari
+            if temp.data == old_data:
+                temp.data = new_data #Ganti data lama dengan data baru
+                self.save_to_file()
+                print(f"Foto '{old_data}' berhasil diubah menjadi '{new_data}'!")
+                return
+
+            temp = temp.next #Jika belum ditemukan, pindah ke node berikutnya
+
+    def delete_photo(self, data_image):
+        """
+        Method untuk menghapus foto dari Linked list
+        """
+        temp = self.head #Mulai mencari data dari head
+        stack = Stack() #Membuat objek stack untuk menyimpan riwayat foto yang dihapus
+        
+        while temp: #Looping selama node masih ada
+            if temp.data == data_image: #Jika data yang dicari ditemukan
+                stack.add_trash(temp.data)
+                if temp.prev: #Jika node yang dihapus punya node sebelumnya, maka sambungkan ke node setelahnya
+                    temp.prev.next = temp.next
+                else: #Jika node yang dihapus adalah head, pindahkan head ke node berikutnya
+                    self.head = temp.next
+
+                if temp.next: #Jika node yang dihapus punya node setelahnya, sambungkan ke node sebelumnya
+                    temp.next.prev = temp.prev
+                else: #Jika node yang dihapus adalah tail, maka pindahkan tail ke node sebelumnya
+                    self.tail = temp.prev
+                
+                self.save_to_file() #Simpan perubahan Linked list ke file txt
+                print(f"Foto berhasil dihapus")
+            else:
+                print("File tidak ditemukan pada penyimpanan!") #Jika data tidak ditemykan
+                return
+            #jika belum ditemukan, lanjut ke node berikutnya
             temp = temp.next
 
-        return print("NULL")
+    def display(self):
+        """
+        Method untuk menampilkan seluruh data foto dalam bentuk tabel
+        """
+        table = Table(title="Data Galeri Foto") #Membuat tabel dengan judul
+        table.add_column("No", justify="center") #Menambahkan kolom nomor
+        table.add_column("Nama File") #Menambahkan kolom nama file
 
-    def disply_dbl_prev(self):
-        temp = self.tail
+        temp = self.head #Mulai baca data dari head
+        
+        nomor = 1 #Nomor awal tabel
 
-        while temp:
-            print(temp.data, end=" -> ")
+        if self.is_empty(): #Jika Linked list kosong, tampilkan keterangan
+            table.add_row("-", "Belum ada data foto")
+        else: #Jika ada data, tampilkan ke tabel
+            while temp:
+                table.add_row(str(nomor), temp.data)
+                temp = temp.next #Pindah ke node berikutnya
+                nomor += 1 #Nomor bertambah
+        p(table) #Menampilkan tabel ke terminal
+    
+    def disply_dll_next(self):
+        """
+        Method untuk menampilkan struktur Double Linked List dari depan ke belakang
+        """
+        temp = self.head #Mulai dari head
+
+        if self.is_empty(): #Jika Linked list kosong
+            print("Double Linked List masih kosong!")
+            return
+        
+        #Menampilkan arah dari Head ke Tail
+        print("HEAD", end=" <-> ")
+
+        while temp: #Looping dari head ke tail
+            print(temp.data, end=" <-> ")
+            temp = temp.next
+
+        print("NULL")
+
+    def disply_dll_prev(self):
+        """
+        Method untuk menampilkan struktur Double Linked List dari belakang ke depan
+        """
+        temp = self.tail #Mulai dari tail
+
+        if self.is_empty(): #Jika Linked list kosong
+            print("Double Linked List masih kosong!")
+            return
+
+        #Menampilkan arah dari Tail ke Head
+        print("TAIL", end=" <-> ")
+
+        while temp: #Looping dari tail ke head
+            print(temp.data, end=" <-> ")
             temp = temp.prev
 
-        return print("NULL")
+        print("NULL")
 
+def clear_screen():
+    """
+    Function untuk membersihkan layar terminal
+    """
+    #Jika sistem operasi Windows, gunakan cls
+    #Jika bukan windows, gunakan clear
+    os.system("cls" if os.name == "nt" else "clear") 
+
+def show_menu():
+    """
+    Function untuk menampilkan menu utama aplikasi
+    """
+    print("=====================================")
+    print("=         APLIKASI GALERI           =")
+    print("= 1. Tambah Data Foto               =")
+    print("= 2. Tampilkan Data Foto            =")
+    print("= 3. Edit Data Foto                 =")
+    print("= 4. Hapus Data Foto                =")
+    print("= 5. Tampilkan Struktur DLL         =")
+    print("= 6. Tampilkan Riwayat Hapus        =")
+    print("= 7. Keluar                         =")
+    print("=====================================")
+
+#Bagian ini hanya dijalankan jika file main.py dijalankan langsung
 if __name__ == "__main__":
-    os.system("cls")
-
-    print("=====================================")
-    print("= 1. Tambah Data                    =")
-    print("= 2. Tampilkan Data                 =")
-    print("= 3. Edit Data                      =")
-    print("= 4. Hapus Data                     =")
-    print("= 5. Tampilkan Struktur DBL         =")
-    print("= 6. Tampilkan Riwayat              =")
-    print("=====================================")
-
     dll = DoubleLinkedList() #Inisialisasi objek DoubleLinkedList
-    
-    while True:
-        choice = input("Pilih Menu (1-6): ").strip().lower()
+    clear_screen() #Membersihkan layar terminal saat program dimulai
+
+    while True: #Looping utama agar program terus berjalan sampai user pilih keluar
+        show_menu() #Menampilkan menu
+
+        choice = input("Pilih Menu (1-7): ").strip() #Meminta user memilih menu
+
         if choice == "1":
-            input_user = input("Masukkan Nama File Gambar: ") #Input user untuk menambah data (ceritanya: gambar)
+            input_user = input("Masukkan Nama File Gambar: ").strip() #Input user untuk menambah data (ceritanya: gambar)
             dll.add_photo(input_user) #Memanggil method add_photo untuk memasukkan/menambah data
+        
         elif choice == "2":
             dll.display() #Menampilkan daftar gambar dalam bentuk tabel
+        
         elif choice == "3":
-            input_user3 = input("Masukkan Nama File Yang Ingin Diedit: ")
-            dll.update(input_user3)
+            old_data = input("Masukkan Nama File yang Ingin Diedit: ").strip()
+            new_data = input("Masukkan Nama File Baru: ").strip()
+            dll.update_photo(old_data, new_data)
+        
         elif choice == "4":
-            input_user2 = input("Masukkan Nama File Yang Ingin Dihapus: ") #Input user untuk menghapus data (ceritanya: gambar)
-            dll.delete_photo(input_user2) #Memanggil method delete_photo untuk menghapus data
+            input_user = input("Masukkan Nama File Yang Ingin Dihapus: ").strip() #Input user untuk menghapus data (ceritanya: gambar)
+            dll.delete_photo(input_user) #Memanggil method delete_photo untuk menghapus data
+        
         elif choice == "5":
-            dll.disply_dbl_next()
-            dll.disply_dbl_prev()
+            print("\nData dari HEAD ke TAIL:")
+            dll.disply_dll_next()
+
+            print("\nData dari TAIL ke HEAD:")
+            dll.disply_dll_prev()
+        
         elif choice == "6":
-            s = Stack()           s.display_trash()
+            stack = Stack()
+            stack.display_trash()
+        
+        elif choice == "7":
+            print("Program selesai. Terimakasih!")
+            break
+        
         else:
             print("Input Tidak Valid!")
 
-        exit = input("Apakah Sudah Selesai (y/n): ").strip().lower()
+        #Menanyakan apakah user ingin melanjutkan menggunakan aplikasi
+        lanjut = input("\nLanjut menggunakan aplikasi? (y/n): ").strip().lower()
 
-        if exit == "y":
-            quit()
+        if lanjut == "n":
+            print("Program selesai. Terimakasih!")
+            break
+
+        clear_screen() #Membersihkan layar sebelum menampilkan menu lagi

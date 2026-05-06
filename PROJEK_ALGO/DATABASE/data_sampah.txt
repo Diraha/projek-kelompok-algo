@@ -1,1 +1,4 @@
-lili.png
+kucing.png
+handphone.jpg
+cat.png
+bunga.png
