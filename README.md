@@ -8,7 +8,7 @@ STRUKTUR DATA YANG DIPAKAI :
 - Stack
 
 METODE SORTING :
-
+Insertion Sort
 
 METODE SEARCHING :
 
