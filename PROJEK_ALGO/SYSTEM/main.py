@@ -191,20 +191,20 @@ class DoubleLinkedList: #Class untuk menjalankan fitur CRUD(Create, Read, Update
         if self.is_empty():
             print("Double Linked List masih kosong!")
             return
-        if self.head.next is None:
+        if self.head.next is None: #Cek data kedua apkh kosong
             print("Hanya ada satu data tidak bisa diurutkan!")
 
-        current = self.head.next
-        while current:
-            current_data = current.data
-            temp = current.prev
+        current = self.head.next #Mulai dari node kedua
+        while current: 
+            current_data = current.data #Simpan data sementara
+            temp = current.prev #Mulai dari kiri karena cari posisi dari kiri
 
-            while temp and temp.data[by] > current_data[by]:
-                temp.next.data = temp.data
+            while temp and temp.data[by] > current_data[by]: #Cek node nya masih ada gak
+                temp.next.data = temp.data #Geser kanan
                 temp = temp.prev
-                if temp == None:
+                if temp == None: #Kalau udah habis data jadi paling depan
                     self.head.data = current_data
-                else:
+                else: #Kalau masih ada data jadi setelah temp
                     temp.next.data = current_data
             
             current = current.next
@@ -281,7 +281,7 @@ if __name__ == "__main__":
     while True: #Looping utama agar program terus berjalan sampai user pilih keluar
         show_menu() #Menampilkan menu
 
-        choice = input("Pilih Menu (1-7): ").strip() #Meminta user memilih menu
+        choice = input("Pilih Menu (1-8): ").strip() #Meminta user memilih menu
 
         if choice == "1":
             input_user = input("Masukkan Nama File Gambar: ").strip() #Input user untuk menambah data (ceritanya: gambar)
