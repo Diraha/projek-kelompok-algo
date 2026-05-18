@@ -248,6 +248,42 @@ class DoubleLinkedList: #Class untuk menjalankan fitur CRUD(Create, Read, Update
 
         print("NULL")
 
+    def binary_search(self, target:str):
+        """
+        Method untuk mencari foto berdasarkan file menggunakan Binary Search
+        """
+
+        self.insertion_sort("nama_file") #Memastikan data sudah terurut berdasarkan nama_file
+        data_list = []
+        temp = self.head #Ubah linked list menjadi list biasa untuk diakses berdasarkan index
+
+        while temp:
+            data_list.append(temp.data)
+            temp = temp.next
+
+        low = 0
+        high = len(data_list) - 1
+
+        while low <= high:
+            mid = (low + high) // 2
+
+            nama_tengah = data_list[mid]["nama_file"]
+
+            #Jika ditemukan
+            if nama_tengah == target:
+                print("\nFoto ditemukan!")
+                print(f"Nama File   : {data_list[mid]['nama_file']}")
+                print(f"Tanggal     : {data_list[mid]['tanggal']}")
+                return
+            #Jika target lebih kecil
+            elif target < nama_tengah:
+                high = mid - 1
+            #Jika target lebih besar
+            else:
+                low = mid + 1
+
+        print(f"Foto '{target}' tidak ditemukan!")
+
 def clear_screen():
     """
     Function untuk membersihkan layar terminal
@@ -270,7 +306,8 @@ def show_menu():
     print("= 5. Tampilkan Struktur DLL         =")
     print("= 6. Tampilkan Riwayat Hapus        =")
     print("= 7. Urutkan Foto                   =")
-    print("= 8. Keluar                         =")
+    print("= 8. Cari Foto (Binary Search)      =")
+    print("= 9. Keluar                         =")
     print("=====================================")
 
 #Bagian ini hanya dijalankan jika file main.py dijalankan langsung
@@ -329,6 +366,11 @@ if __name__ == "__main__":
                 print("Pilihan tidak valid!")
         
         elif choice == "8":
+            dll.display()
+            target = input("Masukkan nama foto yang dicari: ").strip()
+            dll.binary_search(target)
+        
+        elif choice == "9":
             print("Program selesai. Terimakasih!")
             break
         
