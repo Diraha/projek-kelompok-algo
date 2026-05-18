@@ -318,7 +318,7 @@ if __name__ == "__main__":
     while True: #Looping utama agar program terus berjalan sampai user pilih keluar
         show_menu() #Menampilkan menu
 
-        choice = input("Pilih Menu (1-8): ").strip() #Meminta user memilih menu
+        choice = input("Pilih Menu (1-9): ").strip() #Meminta user memilih menu
 
         if choice == "1":
             input_user = input("Masukkan Nama File Gambar: ").strip() #Input user untuk menambah data (ceritanya: gambar)
