@@ -95,6 +95,7 @@ class DoubleLinkedList: #Class untuk menjalankan fitur CRUD(Create, Read, Update
         while temp:
             records.append(temp.data)
             temp = temp.next
+
         with open(DATA_IMAGE_PATH, mode="w", encoding="utf-8") as file:
             json.dump(records, file, indent=4, ensure_ascii=False)
 
@@ -150,7 +151,7 @@ class DoubleLinkedList: #Class untuk menjalankan fitur CRUD(Create, Read, Update
                 else:
                     self.head = temp.next
 
-                if temp.next :
+                if temp.next:
                     temp.next.prev = temp.prev
                 else:
                     self.tail = temp.prev 
@@ -248,14 +249,6 @@ class DoubleLinkedList: #Class untuk menjalankan fitur CRUD(Create, Read, Update
 
         print("NULL")
 
-def clear_screen():
-    """
-    Function untuk membersihkan layar terminal
-    """
-    #Jika sistem operasi Windows, gunakan cls
-    #Jika bukan windows, gunakan clear
-    os.system("cls" if os.name == "nt" else "clear") 
-
 def show_menu():
     """
     Function untuk menampilkan menu utama aplikasi
@@ -276,7 +269,7 @@ def show_menu():
 #Bagian ini hanya dijalankan jika file main.py dijalankan langsung
 if __name__ == "__main__":
     dll = DoubleLinkedList() #Inisialisasi objek DoubleLinkedList
-    clear_screen() #Membersihkan layar terminal saat program dimulai
+    os.system("cls" if os.name == "nt" else "clear")  #Membersihkan layar terminal saat program dimulai
 
     while True: #Looping utama agar program terus berjalan sampai user pilih keluar
         show_menu() #Menampilkan menu
@@ -334,13 +327,3 @@ if __name__ == "__main__":
         
         else:
             print("Input Tidak Valid!")
-
-        #Menanyakan apakah user ingin melanjutkan menggunakan aplikasi
-        lanjut = input("\nLanjut menggunakan aplikasi? (klik 'y' untuk lanjut, klik apapun untuk keluar): ").strip().lower()
-
-        if lanjut == "y":
-            clear_screen() #Membersihkan layar sebelum menampilkan menu lagi
-            continue
-        else:
-            print("Program selesai. Terimakasih!")
-            break
