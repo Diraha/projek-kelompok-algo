@@ -5,7 +5,6 @@ from pyfiglet import Figlet
 from termcolor import colored
 from effects_text import edit_image_effect, delete_image_effect, sorting_image_effect, searching_image_effect
 import time
-import json
 from download_image import menu_download
 
 def start():
@@ -65,6 +64,7 @@ def gallery():
             os.system("cls" if os.name == "nt" else "clear")
             stack = Stack()
             stack.display_trash()
+            return
 
         elif choice == "R":
             while True:
@@ -119,8 +119,10 @@ if __name__ == '__main__':
 
         if result == "E":
             gallery()
+            break
         elif result == "D":
             menu_download()
+            break
         else:
             text = "Masukkan Inputan Yang Valid!"
             padding = (os.get_terminal_size().columns - len(text)) // 2

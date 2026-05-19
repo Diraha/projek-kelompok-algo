@@ -15,6 +15,7 @@ class DoubleLinkedList: #Class untuk menjalankan fitur CRUD(Create, Read, Update
         self.head = None
         self.tail = None
         self.load_from_file() #Saat program pertama kali dijalankan, data dari file txt dimasukkan kembali ke linked list
+        self.stack = Stack() #Membuat objek stack untuk menyimpan riwayat foto yang dihapus
 
     def is_empty(self):
         """
@@ -121,12 +122,11 @@ class DoubleLinkedList: #Class untuk menjalankan fitur CRUD(Create, Read, Update
         Method untuk menghapus foto dari Linked list
         """
         temp = self.head #Mulai mencari data dari head
-        stack = Stack() #Membuat objek stack untuk menyimpan riwayat foto yang dihapus
         
         while temp: #Looping selama node masih ada
             if temp.data["nama_file"] == nama_file: #Jika data yang dicari ditemukan
-                info_hapus = (f"{temp.data["nama_file"]} (ditambahkan: {temp.data["tanggal"]})")
-                stack.add_trash(info_hapus)
+                info_hapus = {"file_name": temp.data["nama_file"], "tanggal": temp.data["tanggal"]}
+                self.stack.add_trash(info_hapus)
 
                 if temp.prev:
                     temp.prev.next = temp.next
@@ -138,11 +138,8 @@ class DoubleLinkedList: #Class untuk menjalankan fitur CRUD(Create, Read, Update
                 else:
                     self.tail = temp.prev 
                 
-                self.save_to_file()
-
                 return
-            temp=temp.next 
-        print(f"gambar {nama_file} tidak ditemukan pada penyimpanan!")
+            temp=temp.next
 
     def display(self):
         """

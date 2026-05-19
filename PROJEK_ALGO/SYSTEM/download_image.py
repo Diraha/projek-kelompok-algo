@@ -1,6 +1,5 @@
 from rich.table import Table
 from rich import print as p
-import requests
 import json
 import os
 from node import DoubleLinkedList
