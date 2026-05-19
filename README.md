@@ -3,19 +3,23 @@ Repository projek algoritma &amp; struktur data dari kelompok 17 dengan tema ima
 
 Image Viewer (Kelompok 17)
 
-STRUKTUR DATA YANG DIPAKAI :
+ANGGOTA KELOMPOK:
+- Midori Harahap (J0403251018)
+- Firly Ramadhani Tubagus (J0403251115)
+- Diaz Ramaananta Harahap (J0403251048)
+
+STRUKTUR DATA YANG DIPAKAI:
 - Double Linked List
 - Stack
 
-METODE SORTING :
-Insertion Sort
+METODE SORTING:
+- Insertion Sort
 
-METODE SEARCHING :
+METODE SEARCHING:
+- Binary Seacrh
 
-
-PENYIMPANAN FILE (DATABASE) :
-TXT :
-- data_image.txt
+PENYIMPANAN FILE (DATABASE):
+- data_image.json
 - data_sampah.txt
 
 PEMBAGIAN TUGAS:
