@@ -52,18 +52,22 @@ def found_img():
 
     print(colored("Gambar Tidak Tersedia di PIN-HT", "red"))
     time.sleep(1.0)
+    return
 
 def menu_download():
     while True:
-        result = download_img()
+        response = download_img()
 
-        if result == "D":
+        if response == "D":
             found_img()
-        elif result == "G":
+        elif response == "G":
             from main import gallery
             gallery()
-        elif result == "X":
+            break
+        elif response == "X":
+            os.system("cls" if os.name == "nt" else "clear")
+            print("Program Selesai, Terima Kasih!")
             exit()
         else:
             print(colored("Input Tidak Valid!", "red"))
-            time.sleep(1.0)
+            time.sleep(1.5)

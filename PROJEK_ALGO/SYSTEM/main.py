@@ -1,15 +1,14 @@
 import os
 from node import DoubleLinkedList
-from history import Stack
+from history import display
 from pyfiglet import Figlet
 from termcolor import colored
 from effects_text import edit_image_effect, delete_image_effect, sorting_image_effect, searching_image_effect
 import time
-from download_image import menu_download
 
-def start():
+def homescreen():
     """
-    Function untuk menampilkan homescreen aplikasi
+    Function untuk menampilkan homescreen sistem
     """
     width = os.get_terminal_size().columns
 
@@ -26,10 +25,10 @@ def start():
     return user_choice
 
 def gallery():
+    os.system("cls" if os.name == "nt" else "clear")
     dll = DoubleLinkedList() #Inisialisasi objek DoubleLinkedList
 
     while True: #Looping utama agar program terus berjalan sampai user pilih keluar
-        os.system("cls" if os.name == "nt" else "clear")
         dll.display()
         choice = input("Masukkan Pilihan Menu: ").strip().upper() #Meminta user memilih menu
                 
@@ -39,19 +38,17 @@ def gallery():
             new_data = input("Masukkan Nama File Baru: ").strip()
             response = dll.update_photo(old_data, new_data)
             edit_image_effect(response)
-            os.system("cls" if os.name == "nt" else "clear")
-            dll.display()
 
         elif choice == "A":
+            from download_image import menu_download
             menu_download()
+            return
                 
         elif choice == "D":
             os.system("cls" if os.name == "nt" else "clear")
             input_user = input("Masukkan Nama File Yang Ingin Dihapus: ").strip() #Input user untuk menghapus data (ceritanya: gambar)
-            dll.delete_photo(input_user) #Memanggil method delete_photo untuk menghapus data
-            delete_image_effect()
-            os.system("cls" if os.name == "nt" else "clear")
-            dll.display()
+            response = dll.delete_photo(input_user) #Memanggil method delete_photo untuk menghapus data
+            delete_image_effect(response)
                 
         elif choice == "S":
             print("\nData dari HEAD ke TAIL:")
@@ -59,11 +56,12 @@ def gallery():
 
             print("\nData dari TAIL ke HEAD:")
             dll.disply_dll_prev()
+
+            input_user("Input [B] To Back The Gallery: ")
                 
         elif choice == "T":
             os.system("cls" if os.name == "nt" else "clear")
-            stack = Stack()
-            stack.display_trash()
+            display()
             return
 
         elif choice == "R":
@@ -90,17 +88,12 @@ def gallery():
                 else:
                     print(colored("Pilihan tidak valid!", "red"))
                     time.sleep(1.5)
-
-            os.system("cls" if os.name == "nt" else "clear")
-            dll.display()
                 
         elif choice == "C":
             os.system("cls" if os.name == "nt" else "clear")
             target = input("Masukkan nama foto yang dicari: ").strip()
             response = dll.binary_search(target)
             searching_image_effect(target, response)
-            os.system("cls" if os.name == "nt" else "clear")
-            dll.display()
                 
         elif choice == "X":
             os.system("cls" if os.name == "nt" else "clear")
@@ -109,18 +102,19 @@ def gallery():
                 
         else:
             print(colored("Input Tidak Valid!", "red"))
-            time.sleep(1.0)
+            time.sleep(1.5)
 
 if __name__ == '__main__':
     while True:
         os.system("cls" if os.name == "nt" else "clear")  #Membersihkan layar terminal saat program dimulai
 
-        result = start()
+        response = homescreen()
 
-        if result == "E":
+        if response == "E":
             gallery()
             break
-        elif result == "D":
+        elif response == "D":
+            from download_image import menu_download
             menu_download()
             break
         else:

@@ -39,15 +39,21 @@ def edit_image_effect(response):
         time.sleep(1.5)
         return
     
-def delete_image_effect():
+def delete_image_effect(response):
     while True:
+        if not response["found"]:
+            time.sleep(1.0)
+            print(colored(f"File {response["file_name"]} Tidak Ditemukan!", "red"))
+            time.sleep(1.5)
+            return
+
         for i in range(6):
             titik = "." * i
             print(colored(f"\rMenghapus Foto, Tunggu Sebentar{titik}", "yellow"), end="")
             time.sleep(0.7)
 
         time.sleep(1.0)
-        print(colored("\nFoto Berhasil Dihapus!", "yellow"))
+        print(colored("\nFoto Berhasil Dihapus!", "green"))
         time.sleep(1.5)
         return
     

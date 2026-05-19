@@ -3,6 +3,7 @@ from rich import print as p #Membuat tampilan terminal lebih rapi dan bewarna
 from history import Stack #Mengambil class Stack dari file riwayat.py, menyimpan riwayat foto yang sudah dihapus
 from datetime import datetime
 import json
+import os
 
 class Node: #Class untuk membuat template node
     def __init__(self, data):
@@ -16,6 +17,9 @@ class DoubleLinkedList: #Class untuk menjalankan fitur CRUD(Create, Read, Update
         self.tail = None
         self.load_from_file() #Saat program pertama kali dijalankan, data dari file txt dimasukkan kembali ke linked list
         self.stack = Stack() #Membuat objek stack untuk menyimpan riwayat foto yang dihapus
+
+    def clear_console(self):
+        os.system("cls" if os.name == "nt" else "clear")
 
     def is_empty(self):
         """
@@ -138,13 +142,16 @@ class DoubleLinkedList: #Class untuk menjalankan fitur CRUD(Create, Read, Update
                 else:
                     self.tail = temp.prev 
                 
-                return
+                return {"file_name": nama_file, "found": True}
             temp=temp.next
+        return {"file_name": nama_file, "found": False}
 
     def display(self):
         """
         Method untuk menampilkan seluruh data foto dalam bentuk tabel
         """
+        self.clear_console()
+
         table = Table(title="Gallery-HT")
         table.add_column("No", justify="center") #Menambahkan kolom nomor
         table.add_column("File Name") #Menambahkan kolom nama file
