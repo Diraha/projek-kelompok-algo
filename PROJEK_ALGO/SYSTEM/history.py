@@ -62,8 +62,32 @@ class Stack: #Class untuk membuat template node linked list
             print("Database Tidak Ditemukan!")
 
     #menghapus semua data trash
-    def delete_trash():
-        pass
+    def delete_trash(self):
+
+        #Jika stack kosong, tidak ada data yang bisa dihapus
+        if self.head is None:
+            print("Trash Sudah Kosong!")
+            #menunggu user menekan Enter sebelum kembali ke menu history
+            input_user = input("Tekan Enter untuk melanjutkan...")
+        else:
+            #meminta konfirmasi user sebelum menhapus seluruh riwayat secara permanent
+            user_input = input("Apakah Anda yakin ingin menghapus seluruh riwayat trash secara permanen? (Y/N): ").strip().upper()
+            
+            #jika user menyetujui penghapusan
+            if user_input == "Y":
+                self.head = None #mengosongkan stack dengan menghapus head
+                self.save_to_file() #menyimpan perubahan ke file json
+                print("Seluruh riwayat telah dihapus secara permanen!")
+                input_user = input("Tekan Enter untuk melanjutkan...") #jeda untuk user membaca pesan
+
+            #jika user membatalkan penghapusan    
+            elif user_input == "N":
+                print("Riwayat batal dihapus secara permanen")
+                input_user = input("Tekan Enter untuk melanjutkan...")
+            
+            #jika input selain y/n
+            else:
+                print("Input tidak valid!!")
 
     #menampilkan riwayat trash
     def display_trash(self):
@@ -90,14 +114,32 @@ class Stack: #Class untuk membuat template node linked list
 
         print("\n[D]: Clear Trash                                                   [S]: Display Stack Structure                                                     [B]: Back\n")
 
-    #menampilkan struktur stack
+    #menampilkan struktur stack secara visual
     def display_stack_structure(self):
-        current = self.head #variabel current untuk traversal
-        
+
+        current = self.head #memulai traversal dari head
+
+        #jika stack kosong
+        if current is None:
+            print("Stack Kosong!")
+            return
+            
+        print("========== STACK STRUCTURE ==========\n")
+
+        #head pada stack merupakan TOP nya
+        print("TOP")
+
+        #menelusuri seluruh kode pada stack dengan while
         while current: #selama loop node masih ada
-            #tampilkan nama file dan arah pointer
-            print(current.value["file_name"], end="-> ")
+            #menampilkan nama file yang tersimpan pada node
+            print(current.value["file_name"])
+            #menampilkan arah pointer ke node berikutnya
+            print("|")
+            print("v")
             current = current.next #pindah ke node berikutnya
+        
+        #penanda akhir linked list
+        print("NULL")
 
 #function display
 def display():
@@ -116,8 +158,8 @@ def display():
 
         #tampilkan struktur stack
         elif input_user == "S":
-            stack.display_stack_structure()
-            break
+            stack.display_stack_structure() #memanggil method untuk menampilkan struktur
+            input_user= input("Tekan enter untuk kembali...").strip() #input untuk kembali ke history
 
         #kembali ke gallery
         elif input_user == "B":

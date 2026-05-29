@@ -26,7 +26,11 @@ def homescreen():
 
     return user_choice #mengembalikan pilihan user
 
+
 def gallery():
+    """
+    Function untuk menampilkan sistem menu
+    """
     os.system("cls" if os.name == "nt" else "clear") #membersihkan terminal
     dll = DoubleLinkedList() #Inisialisasi objek DoubleLinkedList
 
@@ -37,6 +41,7 @@ def gallery():
         #menu edit foto        
         if choice == "E":
             os.system("cls" if os.name == "nt" else "clear") #membersihkan layar
+            dll.display_table()
             old_data = input("Masukkan Nama File yang Ingin Diedit: ").strip() #meminta nama file lama
             new_data = input("Masukkan Nama File Baru: ").strip() #meminta nama file baru
             response = dll.update_photo(old_data, new_data) #memanggil method update photo
@@ -52,6 +57,7 @@ def gallery():
         #menu hapus foto
         elif choice == "D":
             os.system("cls" if os.name == "nt" else "clear") #membersihkan layar
+            dll.display_table()
             input_user = input("Masukkan Nama File Yang Ingin Dihapus: ").strip() #Input user untuk menghapus data (ceritanya: gambar)
             response = dll.delete_photo(input_user) #Memanggil method delete_photo untuk menghapus data
             delete_image_effect(response) #menampilkan efek penghapusan
@@ -118,6 +124,7 @@ def gallery():
         else:
             print(colored("Input Tidak Valid!", "red")) #menampilkan pesan error
             time.sleep(1.5)
+
 
 #program utama dijalankan jika file ini dieksekusi langsung
 if __name__ == '__main__':

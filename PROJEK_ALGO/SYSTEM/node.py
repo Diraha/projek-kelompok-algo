@@ -19,6 +19,9 @@ class DoubleLinkedList: #Class untuk menjalankan fitur CRUD(Create, Read, Update
         self.stack = Stack() #Membuat objek stack untuk menyimpan riwayat foto yang dihapus
 
     def clear_console(self):
+        """
+        Method untuk membersihkan riwayat terminal
+        """
         os.system("cls" if os.name == "nt" else "clear")
 
     def is_empty(self):
@@ -146,7 +149,7 @@ class DoubleLinkedList: #Class untuk menjalankan fitur CRUD(Create, Read, Update
             temp=temp.next
         return {"file_name": nama_file, "found": False}
 
-    def display(self):
+    def display_table(self):
         """
         Method untuk menampilkan seluruh data foto dalam bentuk tabel
         """
@@ -169,6 +172,13 @@ class DoubleLinkedList: #Class untuk menjalankan fitur CRUD(Create, Read, Update
                 temp = temp.next #Pindah ke node berikutnya
                 nomor += 1 #Nomor bertambah
         p(table) #Menampilkan tabel ke terminal
+
+
+    def display(self):
+        """
+        Method untuk menampilkan tabel foto dan pilihan user
+        """
+        self.display_table()
 
         print("\n[A]: Download Image                                                   [T]: Trash History                                                     [C]: Searching")
         print("[E]: Edit Image                                                       [S]: Display DBL Structure                                             [X]: Exit")
