@@ -112,7 +112,8 @@ class Stack: #Class untuk membuat template node linked list
         
         p(table) #menampilkan tabel menggunakan rich
 
-        print("\n[D]: Clear Trash                                                   [S]: Display Stack Structure                                                     [B]: Back\n")
+        print("\n[D]: Clear Trash                                                   [S]: Display Stack Structure\n")
+        print("\n[R]: Restore Last Trash                                            [B]: Back")
 
     #menampilkan struktur stack secara visual
     def display_stack_structure(self):
@@ -141,6 +142,33 @@ class Stack: #Class untuk membuat template node linked list
         #penanda akhir linked list
         print("NULL")
 
+    #mengembalikkan foto terakhir yang dimasukkan ke dalam trash ke gallery
+    def restore_trash(self):
+
+        from node import DoubleLinkedList
+
+        dll = DoubleLinkedList()
+
+        #jika stack kosong
+        if self.head is None:
+            print("Trash Kosong!")
+            return
+        
+        #mengambil data pada TOP stack
+        restored_data = self.head.value
+
+        #menghapus TOP stack (pop)
+        self.head = self.head.next
+
+        #menyimpan perubahan ke JSON
+        self.save_to_file()
+
+        #mengembalikkan data ke gallery
+        dll.add_photo(restored_data["file_name"])
+
+        print(f"{restored_data['file_name']} Berhasil Direstore!")
+        input("Tekan Enter untuk Melanjutkan...")
+
 #function display
 def display():
     stack = Stack() #membuat object stack
@@ -160,6 +188,10 @@ def display():
         elif input_user == "S":
             stack.display_stack_structure() #memanggil method untuk menampilkan struktur
             input_user= input("Tekan enter untuk kembali...").strip() #input untuk kembali ke history
+
+        #restore foto
+        elif input_user == "R":
+            stack.restore_trash()
 
         #kembali ke gallery
         elif input_user == "B":

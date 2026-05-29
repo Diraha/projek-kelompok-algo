@@ -180,9 +180,9 @@ class DoubleLinkedList: #Class untuk menjalankan fitur CRUD(Create, Read, Update
         """
         self.display_table()
 
-        print("\n[A]: Download Image                                                   [T]: Trash History                                                     [C]: Searching")
-        print("[E]: Edit Image                                                       [S]: Display DBL Structure                                             [X]: Exit")
-        print("[D]: Delete Image                                                     [R]: Sorting\n")
+        print("\n[A]: Download Image                                                   [T]: Trash History                                                    [C]: Searching")
+        print("[E]: Edit Image                                                       [S]: Display DBL Structure                                            [X]: Exit")
+        print("[D]: Delete Image                                                     [R]: Sorting                                                          [I]: Gallery Information")
 
     def insertion_sort(self, by):
         """
@@ -281,3 +281,33 @@ class DoubleLinkedList: #Class untuk menjalankan fitur CRUD(Create, Read, Update
                 low = mid + 1
 
         return {"found": False}
+    
+    def gallery_information(self):
+        """
+        Method untuk menampilkan informasi galeri
+        """
+
+        print("========== GALLERY INFO ==========\n")
+
+        total = 0
+        temp = self.head
+        
+        #menghitung jumlah foto pada galeri
+        while temp:
+            total += 1
+            temp = temp.next
+
+        print(f"Total Foto: {total}")
+
+        #jika galeri kosong
+        if self.head is None:
+            print("Gallery Kosong")
+
+        else:
+            #menampilkan foto pertama dan terakhir
+            print(f"Foto Pertama: {self.head.data['nama_file']}")
+            print(f"Foto Terakhir: {self.tail.data['nama_file']}")
+        print("\n========== GALLERY INFO ==========")
+
+        input_user = input("Tekan Enter untuk Kembali...")
+        input_user

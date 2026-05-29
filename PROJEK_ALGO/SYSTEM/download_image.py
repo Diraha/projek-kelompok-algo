@@ -47,7 +47,10 @@ def found_img():
     """
     dll = DoubleLinkedList()
 
-    file_number = int(input("Masukkan Nomor File Gambar: "))
+    try:
+        file_number = int(input("Masukkan Nomor File Gambar: "))
+    except ValueError:
+        print("Input Tidak Valid, Masukkan Nomor File Gambar!")
 
     #Mengubah nomor menjadi indeks list
     index = file_number - 1 #Agar sesuai dengan indeks yang ada pada data

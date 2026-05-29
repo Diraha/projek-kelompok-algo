@@ -113,6 +113,11 @@ def gallery():
             target = input("Masukkan nama foto yang dicari: ").strip() #input nama foto yang ingin dicari
             response = dll.binary_search(target) #melakukan binary search
             searching_image_effect(target, response) #menampilkan efek pencarian
+
+        #menu informasi
+        elif choice == "I":
+            os.system("cls" if os.name == "nt" else "clear") #membersihkan layar
+            dll.gallery_information()
                 
         #menu exit
         elif choice == "X":
