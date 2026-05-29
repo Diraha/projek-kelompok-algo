@@ -64,13 +64,15 @@ def gallery():
                 
         #menu tampilkan data next & prev
         elif choice == "S":
-            print("\nData dari HEAD ke TAIL:") #menampilkan data dari head ke tail
-            dll.disply_dll_next()
+            # print("\nData dari HEAD ke TAIL:") #menampilkan data dari head ke tail
+            # dll.disply_dll_next()
 
-            print("\nData dari TAIL ke HEAD:") #menampilkan data dari tail ke head
-            dll.disply_dll_prev()
+            # print("\nData dari TAIL ke HEAD:") #menampilkan data dari tail ke head
+            # dll.disply_dll_prev()
+            os.system("cls" if os.name == "nt" else "clear")
+            dll.display_dbl_vertical()
 
-            input_user("Input [B] To Back The Gallery: ") #input untuk kembali ke gallery
+            input("Input [B] To Back The Gallery: ") #input untuk kembali ke gallery
         
         #menu history
         elif choice == "T":
@@ -118,7 +120,7 @@ def gallery():
         elif choice == "I":
             os.system("cls" if os.name == "nt" else "clear") #membersihkan layar
             dll.gallery_information()
-                
+
         #menu exit
         elif choice == "X":
             os.system("cls" if os.name == "nt" else "clear") #membersihkan layar
