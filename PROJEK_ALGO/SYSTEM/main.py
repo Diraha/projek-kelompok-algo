@@ -64,11 +64,6 @@ def gallery():
                 
         #menu tampilkan data next & prev
         elif choice == "S":
-            # print("\nData dari HEAD ke TAIL:") #menampilkan data dari head ke tail
-            # dll.disply_dll_next()
-
-            # print("\nData dari TAIL ke HEAD:") #menampilkan data dari tail ke head
-            # dll.disply_dll_prev()
             os.system("cls" if os.name == "nt" else "clear")
             dll.display_dbl_vertical()
 

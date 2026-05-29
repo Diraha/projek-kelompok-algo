@@ -211,44 +211,6 @@ class DoubleLinkedList: #Class untuk menjalankan fitur CRUD(Create, Read, Update
             current = current.next
         self.save_to_file()
     
-    # def disply_dll_next(self):
-    #     """
-    #     Method untuk menampilkan struktur Double Linked List dari depan ke belakang
-    #     """
-    #     temp = self.head #Mulai dari head
-
-    #     if self.is_empty(): #Jika Linked list kosong
-    #         print("Double Linked List masih kosong!")
-    #         return
-        
-    #     #Menampilkan arah dari Head ke Tail
-    #     print("HEAD", end=" <-> ")
-
-    #     while temp: #Looping dari head ke tail
-    #         print(temp.data, end=" <-> ")
-    #         temp = temp.next
-
-    #     print("NULL")
-
-    # def disply_dll_prev(self):
-    #     """
-    #     Method untuk menampilkan struktur Double Linked List dari belakang ke depan
-    #     """
-    #     temp = self.tail #Mulai dari tail
-
-    #     if self.is_empty(): #Jika Linked list kosong
-    #         print("Double Linked List masih kosong!")
-    #         return
-
-    #     #Menampilkan arah dari Tail ke Head
-    #     print("TAIL", end=" <-> ")
-
-    #     while temp: #Looping dari tail ke head
-    #         print(temp.data, end=" <-> ")
-    #         temp = temp.prev
-
-    #     print("NULL")
-
     def display_dbl_vertical(self):
         """
         Menampilkan struktur Double Linked List Secara Vertikal
