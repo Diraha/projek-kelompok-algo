@@ -232,7 +232,7 @@ class DoubleLinkedList: #Class untuk menjalankan fitur CRUD(Create, Read, Update
             next_text += f"[ {temp.data['nama_file']} ]\n"
 
             if temp.next:
-                next_text += " |\n V\n"
+                next_text += " |\n v\n"
             
             temp = temp.next
         next_text += " |\nNULL"

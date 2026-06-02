@@ -32,7 +32,7 @@ def gallery():
     Function untuk menampilkan sistem menu
     """
     os.system("cls" if os.name == "nt" else "clear") #membersihkan terminal
-    dll = DoubleLinkedList() #Inisialisasi objek DoubleLinkedList
+    dll = DoubleLinkedList() #  Inisialisasi objek DoubleLinkedList
 
     while True: #Looping utama agar program terus berjalan sampai user pilih keluar
         dll.display()
@@ -107,6 +107,7 @@ def gallery():
         #menu searching
         elif choice == "C":
             os.system("cls" if os.name == "nt" else "clear") #membersihkan layar
+            dll.display_table()
             target = input("Masukkan nama foto yang dicari: ").strip() #input nama foto yang ingin dicari
             response = dll.binary_search(target) #melakukan binary search
             searching_image_effect(target, response) #menampilkan efek pencarian
