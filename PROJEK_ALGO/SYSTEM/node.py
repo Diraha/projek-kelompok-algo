@@ -4,6 +4,9 @@ from history import Stack #Mengambil class Stack dari file riwayat.py, menyimpan
 from datetime import datetime
 import json
 import os
+from rich.console import Console
+from rich.layout import Layout
+from rich.panel import Panel
 
 class Node: #Class untuk membuat template node
     def __init__(self, data):
@@ -213,51 +216,65 @@ class DoubleLinkedList: #Class untuk menjalankan fitur CRUD(Create, Read, Update
     
     def display_dbl_vertical(self):
         """
-        Menampilkan struktur Double Linked List Secara Vertikal
+        Menampilkan struktur Double Linked List dengan split terminal
         """
         if self.is_empty():
-            print("DoubleLinked List Kosong!")
+            print("Double Linked List Kosong!")
             return
         
-        print("\n========== DOUBLE LINKED LIST ==========\n")
+        console = Console()
 
-        # Next Pointer
-        print("NEXT POINTER (HEAD -> TAIL)\n")
+        # Panel kiri (Head -> Tail)
+        next_text = "[bold green]HEAD[/bold green]\n |\n"
+
         temp = self.head
-
-        print("HEAD")
-        print(" |")
-
         while temp:
-            print(f"[ {temp.data['nama_file']} ]")
+            next_text += f"[ {temp.data['nama_file']} ]\n"
+
             if temp.next:
-                print("  |")
-                print("  V")
+                next_text += " |\n V\n"
             
             temp = temp.next
+        next_text += " |\nNULL"
 
-        print(" |")
-        print("NULL")
-        
-        # Prev Pointer
-        print("\nPREV POINTER (TAIL -> HEAD)\n")
+        # Panel Kanan (Tail -> Head)
+        prev_text = "[bold cyan]TAIL[/bold cyan]\n |\n"
+
         temp = self.tail
-
-        print("TAIL")
-        print(" |")
-
         while temp:
-            print(f"[ {temp.data['nama_file']} ]")
+            prev_text += f"[ {temp.data['nama_file']} ]\n"
 
             if temp.prev:
-                print("   ^")
-                print("  |")
+                prev_text += " ^\n |\n"
+
             temp = temp.prev
-        print(" |")
-        print("NULL")
+        prev_text += " |\nNULL"
 
-        print("\n========================================")
+        # Split Terminal
+        layout = Layout()
 
+        layout.split_row(
+            Layout(
+                Panel(
+                    next_text,
+                    title="NEXT POINTER (HEAD -> TAIL)",
+                    border_style="green"
+                ),
+                name="left"
+            ),
+            Layout(
+                Panel(
+                    prev_text,
+                    title="PREV POINTER (TAIL -> HEAD)",
+                    border_style="cyan"
+                ),
+                name="right"
+            )
+        )
+
+        console.print(layout)
+        input("\nTekan Enter untuk kembali...")
+        
     def binary_search(self, target:str):
         """
         Method untuk mencari foto berdasarkan file menggunakan Binary Search
