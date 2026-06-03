@@ -98,17 +98,21 @@ class Stack: #Class untuk membuat template node linked list
         table.add_column("No")
         table.add_column("File Name")
         table.add_column("Date")
+        table.add_column("Size")
 
         num = 1 #nomor urut
 
         temp = self.head #variabel sementara untuk traversal
 
+        if temp is None:
+            table.add_row("-", "Belum ada data foto", "-", "-")
+        else:
         #liip selama node masih ada
-        while temp:
+            while temp:
             #menambahkan baris ke tabel
-            table.add_row(str(num), f"{temp.value['file_name']:<127}", temp.value["tanggal"])
-            num += 1 #increment nomor
-            temp = temp.next #pindah ke node berikutnya
+                table.add_row(str(num), f"{temp.value['file_name']:<127}", temp.value["tanggal"], temp.value['size'])
+                num += 1 #increment nomor
+                temp = temp.next #pindah ke node berikutnya
         
         p(table) #menampilkan tabel menggunakan rich
 
@@ -164,7 +168,7 @@ class Stack: #Class untuk membuat template node linked list
         self.save_to_file()
 
         #mengembalikkan data ke gallery
-        dll.add_photo(restored_data["file_name"])
+        dll.add_photo(restored_data["file_name"], restored_data['size'])
 
         print(f"{restored_data['file_name']} Berhasil Direstore!")
         input("Tekan Enter untuk Melanjutkan...")

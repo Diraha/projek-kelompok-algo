@@ -4,6 +4,7 @@ from history import Stack #Mengambil class Stack dari file riwayat.py, menyimpan
 from datetime import datetime
 import json
 import os
+import random
 from rich.console import Console
 from rich.layout import Layout
 from rich.panel import Panel
@@ -69,11 +70,20 @@ class DoubleLinkedList: #Class untuk menjalankan fitur CRUD(Create, Read, Update
                 if not content: #Kalau File nya masih kosong
                     return
                 records = json.loads(content)
+
+                data_changed = False
+
                 for record in records:
                     if "nama_file" in record:
                         if "tanggal" not in record:
                             record["tanggal"] = "Tidak diketahui"
+                            data_changed = True
+                        if "file_size" not in record:
+                            record["file_size"] = f"{round(random.uniform(1.0,9.8),1)} MB"
+                            data_changed = True
                         self.add_node(record)
+                if data_changed:
+                    self.save_to_file()
                         
         except(json.JSONDecodeError, KeyError): #Kalau file rusak, mulai dari LL kosong
             print("Database rusak atau format tidak valid!")
@@ -92,7 +102,7 @@ class DoubleLinkedList: #Class untuk menjalankan fitur CRUD(Create, Read, Update
         with open("PROJEK_ALGO/DATABASE/data_image.json", mode="w", encoding="utf-8") as file:
             json.dump(records, file, indent=4, ensure_ascii=False)
 
-    def add_photo(self, nama_file:str):
+    def add_photo(self, nama_file:str, file_size):
         """
         Method untuk menambahkan foto baru
         """
@@ -102,7 +112,8 @@ class DoubleLinkedList: #Class untuk menjalankan fitur CRUD(Create, Read, Update
         
         record = {
             "nama_file" : nama_file,
-            "tanggal" : self._now()
+            "tanggal" : self._now(),
+            "file_size" : f"{file_size}"
         }
         
         self.add_node(record) #Menambahkan data ke Linked list
@@ -135,7 +146,7 @@ class DoubleLinkedList: #Class untuk menjalankan fitur CRUD(Create, Read, Update
         
         while temp: #Looping selama node masih ada
             if temp.data["nama_file"] == nama_file: #Jika data yang dicari ditemukan
-                info_hapus = {"file_name": temp.data["nama_file"], "tanggal": temp.data["tanggal"]}
+                info_hapus = {"file_name": temp.data["nama_file"], "tanggal": temp.data["tanggal"], "size": temp.data['file_size']}
                 self.stack.add_trash(info_hapus)
 
                 if temp.prev:
@@ -148,6 +159,7 @@ class DoubleLinkedList: #Class untuk menjalankan fitur CRUD(Create, Read, Update
                 else:
                     self.tail = temp.prev 
                 
+                self.save_to_file()
                 return {"file_name": nama_file, "found": True}
             temp=temp.next
         return {"file_name": nama_file, "found": False}
@@ -161,17 +173,16 @@ class DoubleLinkedList: #Class untuk menjalankan fitur CRUD(Create, Read, Update
         table = Table(title="Gallery-HT")
         table.add_column("No", justify="center") #Menambahkan kolom nomor
         table.add_column("File Name") #Menambahkan kolom nama file
-        table.add_column("Keterangan", justify="center")
 
         temp = self.head #Mulai baca data dari head
         
         nomor = 1 #Nomor awal tabel
 
         if self.is_empty(): #Jika Linked list kosong, tampilkan keterangan
-            table.add_row("-", "Belum ada data foto", "-")
+            table.add_row("-", "Belum ada data foto",)
         else: #Jika ada data, tampilkan ke tabel
             while temp:
-                table.add_row(str(nomor), f"{temp.data["nama_file"]:<127}", temp.data["tanggal"])
+                table.add_row(str(nomor), f"{temp.data["nama_file"]:<127}")
                 temp = temp.next #Pindah ke node berikutnya
                 nomor += 1 #Nomor bertambah
         p(table) #Menampilkan tabel ke terminal
@@ -183,9 +194,11 @@ class DoubleLinkedList: #Class untuk menjalankan fitur CRUD(Create, Read, Update
         """
         self.display_table()
 
-        print("\n[A]: Download Image                                                   [T]: Trash History                                                    [C]: Searching")
-        print("[E]: Edit Image                                                       [S]: Display DBL Structure                                            [X]: Exit")
-        print("[D]: Delete Image                                                     [R]: Sorting                                                          [I]: Gallery Information")
+        print("\n[A]: Download Image                                                   [V]: View Detail Image")
+        print("[C]: Searching                                                        [R]: Sorting")
+        print("[E]: Edit Image                                                       [S]: Display DBL Structure")
+        print("[D]: Delete Image                                                     [T]: Trash History")
+        print("[I]: Gallery Information                                              [X]: Exit")
 
     def insertion_sort(self, by):
         """
@@ -337,3 +350,71 @@ class DoubleLinkedList: #Class untuk menjalankan fitur CRUD(Create, Read, Update
 
         input_user = input("Tekan Enter untuk Kembali...")
         input_user
+        return
+
+    def detail_image(self):
+        """
+        Fungsi untuk menampilkan detail foto
+        """
+
+        try:
+            image_number = int(input("Masukkan Nomor File Gambar untuk Melihat Detail: "))
+        except ValueError:
+            print("Input tidak valid! Masukkan Nomor File Gambar")
+            input("Tekan Enter untuk Kembali...")
+            return
+
+        temp = self.head
+        nomor = 1
+
+        if self.is_empty():
+            print("Gallery Kosong!")
+            input("Tekan Enter untuk Kembali...")
+            return
+
+        if image_number < 1:
+            print("Nomor File Tidak Valid!")
+            input("Tekan Enter untuk Kembali...")
+            return
+
+        while temp:
+            if nomor == image_number:
+
+                current = temp 
+
+                while True:
+                    os.system("cls" if os.name == "nt" else "clear")
+
+                    print("\n========== DETAIL IMAGE ==========\n")
+                    print(f"Name: {current.data['nama_file']}")
+                    print(f"Date: {current.data['tanggal']}")
+                    print(f"Size: {current.data['file_size']}")
+                    print("\n========== DETAIL IMAGE ==========")
+
+                    print("\n[P]: Previous Image                            [N]: Next Image                     [B]:Back")
+                    user_pilih = input("Masukkan Pilihan Menu: ").strip().upper()
+                    if user_pilih == "B":
+                        return
+                    elif user_pilih == "P":
+                        if current.prev is None:
+                            print("Sudah Berada di Foto Pertama!")
+                            input("Tekan Enter untuk Kembali..")
+                            
+                        else:
+                            current = current.prev
+                    elif user_pilih == "N":
+                        if current.next is None:
+                            print("Sudah Berada di Foto Terakhir!")
+                            input("Tekan Enter untuk Kembali..")
+                            
+                        else:
+                            current = current.next
+                    else:
+                        print("Input Tidak Valid!")
+                        input("Tekan Enter untuk Kembali..")
+
+            nomor += 1
+            temp = temp.next
+        print("Nomor gambar tidak ditemukan!")
+        input("Tekan Enter untuk Kembali..")
+        

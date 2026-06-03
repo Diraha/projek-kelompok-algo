@@ -3,7 +3,7 @@ from node import DoubleLinkedList
 from history import display
 from pyfiglet import Figlet
 from termcolor import colored
-from effects_text import edit_image_effect, delete_image_effect, sorting_image_effect, searching_image_effect
+from effects_text import edit_image_effect, delete_image_effect, sorting_image_effect, searching_image_effect, detail_image_effect
 import time
 
 def homescreen():
@@ -21,7 +21,7 @@ def homescreen():
     print(colored(" " * 54 + "Input [E] To Gallery | Input [D] To Image Download\n", "yellow"))
 
     prompt = "Silahkan Masukkan Pilihan Anda: "
-    padding = (width - len(prompt)) // 2 #mengatur posisi prompt agar berada di tengah terminal
+    padding = (width - len(prompt)) // 2 #menegatur posisi prompt agar berada di tengah terminal
     user_choice = input(" " * padding + prompt).upper().strip() #menerima input user lalu mengubahnya menjadi huruf kapital dan menghapus spasi berlebih
 
     return user_choice #mengembalikan pilihan user
@@ -49,7 +49,8 @@ def gallery():
 
         #menu tambah/download foto
         elif choice == "A":
-            #import function menu_download dari file download_image.py
+            #import function menu_download dari file g
+            # download_image.py
             from download_image import menu_download
             menu_download() #menjalankan menu download
             return #keluar dari gallery
@@ -66,8 +67,6 @@ def gallery():
         elif choice == "S":
             os.system("cls" if os.name == "nt" else "clear")
             dll.display_dbl_vertical()
-
-            input("Input [B] To Back The Gallery: ") #input untuk kembali ke gallery
         
         #menu history
         elif choice == "T":
@@ -111,11 +110,17 @@ def gallery():
             target = input("Masukkan nama foto yang dicari: ").strip() #input nama foto yang ingin dicari
             response = dll.binary_search(target) #melakukan binary search
             searching_image_effect(target, response) #menampilkan efek pencarian
+            input("Tekan Enter untuk Kembali...")
 
         #menu informasi
         elif choice == "I":
             os.system("cls" if os.name == "nt" else "clear") #membersihkan layar
             dll.gallery_information()
+
+        #menu detail foto
+        elif choice == "V":
+            dll.display_table()
+            dll.detail_image()
 
         #menu exit
         elif choice == "X":

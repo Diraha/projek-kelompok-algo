@@ -66,7 +66,8 @@ def found_img():
     
     selected_data = data[index] #Mengambil data sesuai indeks
     file_name = selected_data["file_name"] #Mengambil nama file dari data yang dipilih
-    dll.add_photo(file_name) #Menambahkan gambar ke galeri user
+    file_size = selected_data["file_size"]
+    dll.add_photo(file_name, file_size) #Menambahkan gambar ke galeri user
     download_image_effect()
 
 

@@ -131,5 +131,30 @@ def searching_image_effect(file_name, data:dict):
         else:
             print(colored(f"\nFile {file_name} Ditemukan!", "green"), end="")
             print(colored(f"\nTanggal Ditambahkan: {data["date"]}"))
-            time.sleep(3.0)
+        
+
+def detail_image_effect(response):
+    """
+    Fungsi menampilkan animasi detail image
+    """
+    while True:
+
+        #jika data tidak ditemukan
+        if not response:
+            time.sleep(0.7)
+            print(colored("Data Tidak Ditemukan!", "red"))
+            time.sleep(0.5)
             return
+
+        #animasi mencari data
+        for i in range(6):
+            titik = "." * i
+            print(colored(f"\rMencari Data, Tunggu Sebentar{titik}", "yellow"), end="")
+            time.sleep(0.5)
+
+        time.sleep(0.7)
+
+        #menampilkan pesan data ditemukan
+        print(colored("\nData Ditemukan!", "green"))
+        time.sleep(0.5)
+        return
